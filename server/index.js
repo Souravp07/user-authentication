@@ -49,7 +49,11 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log("✅ MongoDB connected successfully"))
-  .catch((err) => console.error("❌ MongoDB connection error:", err));
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+    // Don't exit the process, let the server start anyway
+    console.log("⚠️ Continuing without MongoDB connection...");
+  });
 
 // Middleware
 app.use(
@@ -69,6 +73,19 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
+// Root endpoint for testing
+app.get("/", (req, res) => {
+  res.json({
+    message: "Server is running!",
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: "/health",
+      signup: "/signup",
+      login: "/login",
+    },
+  });
+});
+
 // Health check endpoint
 app.get("/health", (req, res) => {
   res.json({
@@ -76,6 +93,14 @@ app.get("/health", (req, res) => {
     message: "Server is running",
     timestamp: new Date().toISOString(),
     cors: req.headers.origin,
+  });
+});
+
+// Simple test endpoint
+app.get("/test", (req, res) => {
+  res.json({
+    message: "Test endpoint working!",
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -101,7 +126,11 @@ app.use("*", (req, res) => {
 
 // Start server
 const serverPort = PORT || 5000; // Render assigns PORT automatically
-app.listen(serverPort, () => {
+app.listen(serverPort, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${serverPort}`);
   console.log(`🔗 Health check: http://localhost:${serverPort}/health`);
+  console.log(`🔗 Root endpoint: http://localhost:${serverPort}/`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`📡 CORS origins: ${process.env.FRONTEND_URL || "not set"}`);
+  console.log(`🌐 Server bound to 0.0.0.0:${serverPort}`);
 });

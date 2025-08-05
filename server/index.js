@@ -97,11 +97,8 @@ app.get("/health", (req, res) => {
 });
 
 // Simple test endpoint
-app.get("/test", (req, res) => {
-  res.json({
-    message: "Test endpoint working!",
-    timestamp: new Date().toISOString(),
-  });
+app.post("/api/test", (req, res) => {
+  res.json({ message: "POST /api/test works!", body: req.body });
 });
 
 // API Routes

@@ -3,6 +3,7 @@ const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
 
 module.exports.Signup = async (req, res, next) => {
+  console.log("Signup endpoint hit", req.body);
   try {
     const { email, password, username, createdAt } = req.body;
     const existingUser = await User.findOne({ email });
@@ -20,11 +21,13 @@ module.exports.Signup = async (req, res, next) => {
       .json({ message: "User signed in successfully", success: true, user });
     next();
   } catch (error) {
-    console.error(error);
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
 module.exports.Login = async (req, res, next) => {
+  console.log("Login endpoint hit", req.body);
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -48,6 +51,7 @@ module.exports.Login = async (req, res, next) => {
       .json({ message: "User logged in successfully", success: true });
     next();
   } catch (error) {
-    console.error(error);
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

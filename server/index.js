@@ -56,10 +56,12 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000", // local frontend
-      "https://your-frontend.vercel.app", // deployed frontend
-    ],
+      "https://user-auth-sp.vercel.app/", // another possible vercel domain
+      process.env.FRONTEND_URL, // from environment variable
+    ].filter(Boolean), // remove undefined values
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 

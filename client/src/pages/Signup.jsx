@@ -40,8 +40,17 @@ const Signup = () => {
         handleError(message);
       }
     } catch (error) {
-      console.error(error);
-      handleError("Something went wrong. Please try again.");
+      console.error("Signup error:", error);
+      if (error.response) {
+        // Server responded with error
+        handleError(error.response.data.message || "Signup failed");
+      } else if (error.request) {
+        // Network error
+        handleError("Network error. Please check your connection.");
+      } else {
+        // Other error
+        handleError("Something went wrong. Please try again.");
+      }
     }
 
     setInputValue({ email: "", password: "", username: "" });

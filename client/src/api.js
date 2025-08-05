@@ -7,6 +7,13 @@ const API = axios.create({
   withCredentials: true, // send cookies with every request
 });
 
+// Log the actual base URL being used
+console.log(
+  "🔗 API Base URL:",
+  process.env.REACT_APP_API_URL ||
+    "https://user-authentication-icm4.onrender.com"
+);
+
 // Add request interceptor for debugging
 API.interceptors.request.use(
   (config) => {

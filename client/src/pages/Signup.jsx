@@ -29,8 +29,12 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🔄 Signup attempt with:", { email, username, password: "***" });
+    
     try {
+      console.log("📡 Making API request to /api/signup");
       const { data } = await API.post("/api/signup", { ...inputValue });
+      console.log("📥 Received response:", data);
 
       const { success, message } = data;
       if (success) {
@@ -40,7 +44,14 @@ const Signup = () => {
         handleError(message);
       }
     } catch (error) {
-      console.error("Signup error:", error);
+      console.error("❌ Signup error:", error);
+      console.error("❌ Error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config
+      });
+      
       if (error.response) {
         // Server responded with error
         handleError(error.response.data.message || "Signup failed");

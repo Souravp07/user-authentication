@@ -28,8 +28,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🔄 Login attempt with:", { email, password: "***" });
+    
     try {
+      console.log("📡 Making API request to /api/login");
       const { data } = await API.post("/api/login", { ...inputValue });
+      console.log("📥 Received response:", data);
 
       const { success, message } = data;
       if (success) {
@@ -39,7 +43,14 @@ const Login = () => {
         handleError(message);
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("❌ Login error:", error);
+      console.error("❌ Error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config
+      });
+      
       if (error.response) {
         // Server responded with error
         handleError(error.response.data.message || "Login failed");

@@ -9,7 +9,9 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   const { email, password } = inputValue;
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setInputValue({
@@ -19,42 +21,33 @@ const Login = () => {
   };
 
   const handleError = (err) =>
-    toast.error(err, {
-      position: "bottom-left",
-    });
+    toast.error(err, { position: "bottom-left" });
+
   const handleSuccess = (msg) =>
-    toast.success(msg, {
-      position: "bottom-left",
-    });
+    toast.success(msg, { position: "bottom-left" });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/login",
-        {
-          ...inputValue,
-        },
+        `${process.env.REACT_APP_API_URL}/login`,
+        { ...inputValue },
         { withCredentials: true }
       );
-      console.log(data);
+
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 1000);
+        setTimeout(() => navigate("/dashboard"), 1000);
       } else {
         handleError(message);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      handleError("Something went wrong. Please try again.");
     }
-    setInputValue({
-      ...inputValue,
-      email: "",
-      password: "",
-    });
+
+    setInputValue({ email: "", password: "" });
   };
 
   return (
@@ -69,8 +62,10 @@ const Login = () => {
             value={email}
             placeholder="Enter your email"
             onChange={handleOnChange}
+            required
           />
         </div>
+
         <div>
           <label htmlFor="password">Password</label>
           <input
@@ -79,11 +74,13 @@ const Login = () => {
             value={password}
             placeholder="Enter your password"
             onChange={handleOnChange}
+            required
           />
         </div>
+
         <button type="submit">Submit</button>
         <span>
-          Already have an account? <Link to={"/signup"}>Signup</Link>
+          Don’t have an account? <Link to="/signup">Signup</Link>
         </span>
       </form>
       <ToastContainer />

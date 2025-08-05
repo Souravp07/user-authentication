@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import API from "../api"; // use centralized axios instance
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -19,11 +19,7 @@ const Dashboard = () => {
       }
 
       try {
-        const { data } = await axios.post(
-          "http://localhost:4000",
-          {},
-          { withCredentials: true }
-        );
+        const { data } = await API.post("/"); // now uses API instance
         const { status, user } = data;
         setUsername(user);
         if (status) {
@@ -61,18 +57,21 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className={`dashboard-container ${isVisible ? 'fade-in' : ''}`}>
+      <div className={`dashboard-container ${isVisible ? "fade-in" : ""}`}>
         <div className="dashboard-card">
           <div className="welcome-header">
             <div className="avatar">
               <span>{username.charAt(0).toUpperCase()}</span>
             </div>
             <h1 className="welcome-title">
-              Welcome back, <span className="username-highlight">{username}</span>!
+              Welcome back,{" "}
+              <span className="username-highlight">{username}</span>!
             </h1>
-            <p className="welcome-subtitle">You're successfully logged in to your account.</p>
+            <p className="welcome-subtitle">
+              You're successfully logged in to your account.
+            </p>
           </div>
-          
+
           <div className="dashboard-content">
             <div className="stats-grid">
               <div className="stat-card">
@@ -106,4 +105,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

@@ -1,19 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const Home = () => {
-  const [cookies] = useCookies([]);
+  const [cookies] = useCookies(["token"]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If user is already logged in, redirect to dashboard
     if (cookies.token) {
       navigate("/dashboard");
     }
-  }, [cookies.token, navigate]);
+  }, [cookies, navigate]);
 
   return (
     <div className="home_page">

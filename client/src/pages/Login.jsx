@@ -29,7 +29,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/login", { ...inputValue });
+      const { data } = await API.post("/api/login", { ...inputValue });
 
       const { success, message } = data;
       if (success) {

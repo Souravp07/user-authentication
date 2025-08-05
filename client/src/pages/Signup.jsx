@@ -30,7 +30,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await API.post("/signup", { ...inputValue });
+      const { data } = await API.post("/api/signup", { ...inputValue });
 
       const { success, message } = data;
       if (success) {

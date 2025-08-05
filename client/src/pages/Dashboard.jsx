@@ -19,7 +19,7 @@ const Dashboard = () => {
       }
 
       try {
-        const { data } = await API.post("/"); // now uses API instance
+        const { data } = await API.post("/api/"); // now uses API instance
         const { status, user } = data;
         setUsername(user);
         if (status) {

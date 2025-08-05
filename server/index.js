@@ -104,8 +104,8 @@ app.get("/test", (req, res) => {
   });
 });
 
-// Routes
-app.use("/", authRoute);
+// API Routes
+app.use("/api", authRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

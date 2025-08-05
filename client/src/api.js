@@ -4,7 +4,8 @@ const API = axios.create({
   baseURL:
     process.env.REACT_APP_API_URL ||
     "https://user-authentication-icm4.onrender.com", // fallback to your render URL
-  withCredentials: true, // send cookies with every request
+  withCredentials: false, // temporarily disable credentials to test CORS
+  timeout: 10000, // 10 second timeout
 });
 
 // Log the actual base URL being used

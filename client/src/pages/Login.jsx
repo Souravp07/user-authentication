@@ -31,6 +31,15 @@ const Login = () => {
     console.log("🔄 Login attempt with:", { email, password: "***" });
     
     try {
+      // First, test if the server is reachable
+      console.log("🔍 Testing server connectivity...");
+      try {
+        const healthCheck = await API.get("/health");
+        console.log("✅ Server is reachable:", healthCheck.data);
+      } catch (healthError) {
+        console.error("❌ Server health check failed:", healthError);
+      }
+      
       console.log("📡 Making API request to /api/login");
       const { data } = await API.post("/api/login", { ...inputValue });
       console.log("📥 Received response:", data);

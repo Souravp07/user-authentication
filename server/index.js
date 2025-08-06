@@ -132,7 +132,7 @@ app.use((err, req, res, next) => {
 });
 
 // 404 handler
-app.use("*", (req, res) => {
+app.use("/*", (req, res) => {
   res.status(404).json({
     error: "Route not found",
     path: req.originalUrl,
@@ -143,8 +143,8 @@ app.use("*", (req, res) => {
 const serverPort = PORT || 5000; // Render assigns PORT automatically
 app.listen(serverPort, "0.0.0.0", () => {
   console.log(`🚀 Server running on port ${serverPort}`);
-  console.log(`🔗 Health check: http://localhost:${serverPort}/health`);
-  console.log(`🔗 Root endpoint: http://localhost:${serverPort}/`);
+  console.log('🔗 Health check: http://localhost:' + serverPort + '/health');
+  console.log('🔗 Root endpoint: http://localhost:' + serverPort + '/');
   console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);
   console.log(`📡 CORS origins: ${process.env.FRONTEND_URL || "not set"}`);
   console.log(`🌐 Server bound to 0.0.0.0:${serverPort}`);

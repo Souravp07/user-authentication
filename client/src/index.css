@@ -195,6 +195,12 @@ span a {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.test-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
 .test-btn {
   background-color: rgba(0, 212, 255, 0.8);
   color: white;
@@ -205,6 +211,14 @@ span a {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-bottom: 1.5rem;
+}
+
+.test-btn.network-btn {
+  background-color: #6610f2;
+}
+
+.test-btn.network-btn:hover {
+  background-color: #520dc2;
 }
 
 .test-btn:hover {
@@ -236,6 +250,38 @@ span a {
   margin-top: 1rem;
 }
 
+.network-results {
+  background-color: rgba(102, 16, 242, 0.1);
+  border: 1px solid rgba(102, 16, 242, 0.3);
+}
+
+.result-summary {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+}
+
+.result-summary p {
+  margin-bottom: 0.5rem;
+}
+
+.network-info {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0.3rem;
+}
+
+.network-info ul {
+  margin: 0.5rem 0 0 1rem;
+  padding-left: 1rem;
+}
+
+.network-info li {
+  margin-bottom: 0.25rem;
+}
+
 .results-container h4 {
   color: rgba(0, 212, 255, 1);
   margin-bottom: 1rem;
@@ -243,6 +289,12 @@ span a {
 
 .result-item {
   margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-item:last-child {
+  border-bottom: none;
 }
 
 .result-item strong {
@@ -261,6 +313,24 @@ span a {
   font-size: 0.8rem;
   margin-top: 0.5rem;
   color: rgba(255, 255, 255, 0.9);
+}
+
+.sub-result {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.sub-result.error {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff3333;
+}
+
+.sub-result strong {
+  margin-right: 0.5rem;
 }
 
 /* Dashboard Styles */

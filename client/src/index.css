@@ -173,6 +173,96 @@ span a {
   color: rgba(2, 0, 36, 1);
 }
 
+/* Test Section Styles */
+.test-section {
+  margin-top: 3rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  max-width: 800px;
+  width: 90%;
+}
+
+.test-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: rgba(0, 212, 255, 1);
+}
+
+.test-section p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.test-btn {
+  background-color: rgba(0, 212, 255, 0.8);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.test-btn:hover {
+  background-color: rgba(0, 212, 255, 1);
+}
+
+.test-btn:disabled {
+  background-color: rgba(0, 212, 255, 0.4);
+  cursor: not-allowed;
+}
+
+.error-container {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.error-container h4 {
+  color: #ff3333;
+  margin-bottom: 0.5rem;
+}
+
+.results-container {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.results-container h4 {
+  color: rgba(0, 212, 255, 1);
+  margin-bottom: 1rem;
+}
+
+.result-item {
+  margin-bottom: 1rem;
+}
+
+.result-item strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.result-item.error strong {
+  color: #ff3333;
+}
+
+.result-item pre {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.8rem;
+  border-radius: 0.3rem;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 /* Dashboard Styles */
 .dashboard-container {
   min-height: 100vh;

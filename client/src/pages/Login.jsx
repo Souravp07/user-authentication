@@ -116,7 +116,7 @@
 // export default Login;
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
@@ -139,12 +139,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🔄 Login attempt with:", { email, password: "***" });
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/login`,
-        { ...inputValue },
-        { withCredentials: true }
-      );
+      console.log("📡 Making API request to /api/login");
+      const { data } = await API.post("/api/login", { ...inputValue });
+      console.log("📥 Received response:", data);
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
@@ -153,8 +152,24 @@ const Login = () => {
         handleError(message);
       }
     } catch (error) {
-      console.error(error);
-      handleError("Something went wrong. Please try again.");
+      console.error("❌ Login error:", error);
+      console.error("❌ Error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config
+      });
+      
+      if (error.response) {
+        // Server responded with error
+        handleError(error.response.data.message || "Login failed");
+      } else if (error.request) {
+        // Network error
+        handleError("Network error. Please check your connection.");
+      } else {
+        // Other error
+        handleError("Something went wrong. Please try again.");
+      }
     }
     setInputValue({ email: "", password: "" });
   };

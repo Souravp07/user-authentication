@@ -109,8 +109,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import API from "../api"; // central axios instance
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -122,27 +122,35 @@ const Dashboard = () => {
   useEffect(() => {
     const verifyCookie = async () => {
       if (!cookies.token) {
+        console.log("❌ No token found, redirecting to home");
         navigate("/");
         return;
       }
 
       try {
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/`,
-          {},
-          { withCredentials: true }
-        );
+        console.log("🔍 Verifying authentication token");
+        const { data } = await API.post("/api/");
+        console.log("✅ Token verification response:", data);
+        
         const { status, user } = data;
         setUsername(user);
+        
         if (status) {
           toast.success(`Welcome back, ${user}!`);
           setIsVisible(true);
         } else {
+          console.log("❌ Token invalid, clearing and redirecting");
           removeCookie("token");
           navigate("/");
         }
       } catch (err) {
-        console.error(err);
+        console.error("❌ Authentication error:", err);
+        console.error("❌ Error details:", {
+          message: err.message,
+          response: err.response?.data,
+          status: err.response?.status
+        });
+        
         removeCookie("token");
         navigate("/");
       } finally {
@@ -150,7 +158,7 @@ const Dashboard = () => {
       }
     };
 
-    verifyCookie();
+    verifyCookie(); 
   }, [cookies, navigate, removeCookie]);
 
   const logout = () => {
@@ -169,16 +177,19 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className={`dashboard-container ${isVisible ? 'fade-in' : ''}`}>
+      <div className={`dashboard-container ${isVisible ? "fade-in" : ""}`}>
         <div className="dashboard-card">
           <div className="welcome-header">
             <div className="avatar">
-              <span>{username.charAt(0).toUpperCase()}</span>
+              <span>{username ? username.charAt(0).toUpperCase() : "?"}</span>
             </div>
             <h1 className="welcome-title">
-              Welcome back, <span className="username-highlight">{username}</span>!
+              Welcome back,{" "}
+              <span className="username-highlight">{username}</span>!
             </h1>
-            <p className="welcome-subtitle">You're successfully logged in to your account.</p>
+            <p className="welcome-subtitle">
+              You're successfully logged in to your account.
+            </p>
           </div>
           <div className="dashboard-actions">
             <button onClick={logout} className="logout-button">

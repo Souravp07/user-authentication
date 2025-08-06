@@ -1,11 +1,17 @@
 import axios from "axios";
 
+// Determine the API base URL
+const apiBaseUrl = process.env.REACT_APP_API_URL || "https://user-authentication-icm4.onrender.com";
+
+// Create axios instance with proper configuration
 const API = axios.create({
-  baseURL:
-    process.env.REACT_APP_API_URL ||
-    "https://user-authentication-icm4.onrender.com", // fallback to your render URL
-  withCredentials: false, // temporarily disable credentials to test CORS
-  timeout: 10000, // 10 second timeout
+  baseURL: apiBaseUrl,
+  withCredentials: true, // Required for cookies to be sent and received across domains
+  timeout: 15000, // 15 second timeout for slower connections
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  }
 });
 
 // Log the actual base URL being used

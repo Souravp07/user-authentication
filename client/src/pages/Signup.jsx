@@ -120,8 +120,8 @@
 // export default Signup;
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
+import API from "../api"; // ✅ Import the centralized API
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -134,7 +134,10 @@ const Signup = () => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setInputValue({ ...inputValue, [name]: value });
+    setInputValue((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleError = (err) =>
@@ -144,24 +147,47 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("🔄 Signup attempt with:", { email, username, password: "***" });
+    
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/signup`,
-        { ...inputValue },
-        { withCredentials: true }
-      );
+      console.log("📡 Making API request to /api/signup");
+      const { data } = await API.post("/api/signup", inputValue);
+      console.log("📥 Received response:", data);
+
       const { success, message } = data;
       if (success) {
         handleSuccess(message);
-        setTimeout(() => navigate("/dashboard"), 1000);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       } else {
         handleError(message);
       }
     } catch (error) {
-      console.error(error);
-      handleError("Something went wrong. Please try again.");
+      console.error("❌ Signup error:", error);
+      console.error("❌ Error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config
+      });
+      
+      if (error.response) {
+        // Server responded with error
+        handleError(error.response.data.message || "Signup failed");
+      } else if (error.request) {
+        // Network error
+        handleError("Network error. Please check your connection.");
+      } else {
+        // Other error
+        handleError("Something went wrong. Please try again.");
+      }
     }
-    setInputValue({ email: "", password: "", username: "" });
+    setInputValue({
+      email: "",
+      password: "",
+      username: "",
+    });
   };
 
   return (
